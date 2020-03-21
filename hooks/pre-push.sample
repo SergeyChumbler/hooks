@@ -1,0 +1,19 @@
+#!/bin/bash
+while read oldrev newrev refname
+do
+    branch=$(git rev-parse --symbolic --abbrev-ref $refname)
+    if [ "develop" = "$branch" ]; then
+        git fetch 
+        echo merge develop to account branch
+        git checkout account
+        git pull
+        git merge develop
+        git push account
+        echo merge develop to tariff-manager branch
+        git checkout tariff-manager
+        git pull
+        git merge develop
+        git push tariff-manager
+        echo complete
+    fi
+done
